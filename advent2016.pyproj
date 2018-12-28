@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a252d8a4-583d-4938-8797-b92313ded19d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>4-2.py</StartupFile>
+    <StartupFile>05-2.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,18 +21,20 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="1.py">
+    <Compile Include="05-2.py" />
+    <Compile Include="05-1.py" />
+    <Compile Include="01.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="2.py">
+    <Compile Include="02.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="3-2.py" />
-    <Compile Include="3-1.py">
+    <Compile Include="03-2.py" />
+    <Compile Include="03-1.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="4-2.py" />
-    <Compile Include="4-1.py">
+    <Compile Include="04-2.py" />
+    <Compile Include="04-1.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
