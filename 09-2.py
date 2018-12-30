@@ -32,18 +32,18 @@ def process(pos, endpos):
             ln += 1
             pos += 1
 
-# takes 20+ mins
 def processq():
     global line
 
     ln = 0
-    q = [(0, len(line))]
+    q = [(0, len(line), 1)]
 
     outer = 0
     inner = 0
     while len(q) > 0:
         outer += 1
-        (pos, endpos) = q.pop()
+        (pos, endpos, tx) = q.pop()
+        beforeln = ln
         while (pos < endpos):
             inner += 1
             if line[pos] == '(':
@@ -57,7 +57,8 @@ def processq():
                 for rep in range(0, mark[1]):
                     for j in range(pos, pos + mark[0]):
                         if line[j] == '(':
-                            q.append((j, j + mark[0]))
+                            if rep == 0:
+                                q.append((j, j + mark[0], mark[1] * tx))
                             break
                         else:
                             ln += 1
@@ -65,6 +66,7 @@ def processq():
             else:
                 ln += 1
                 pos += 1
+        ln += (ln - beforeln) * (tx - 1)
         if outer % 10000 == 0:
             print(len(q), outer, inner, ln)
 
