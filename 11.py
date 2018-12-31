@@ -66,7 +66,19 @@ def is_done(floors, elev):
     return len(floors[3]) == len(generators) + len(microchips)
 
 def floors_to_key(floors, elev):
-    return str(elev) + ',' + str([sorted(i) for i in floors])
+    ABs = []
+    for f in floors:
+        As = 0
+        Bs = 0
+        for i in f:
+            if i[1] == 'G': As += 1
+            else: Bs += 1
+        ABs.append(('A' * As) + ('B' * Bs))
+
+    # optimization borrowed from reddit thread (after answering), part 1 now 2s, part 2 now 11s
+    return str(elev) + ',' + ':'.join(ABs)
+    # my original, part 1 took 1m23s, part 2 took 85m
+    #return str(elev) + ',' + str([sorted(i) for i in floors])
 
 # this would take years
 def recur(floors, elev, steps):
@@ -146,6 +158,12 @@ def bfs(qnow):
             up = elev < 3
             down = elev > 0
             floor = floors[elev]
+
+            # minor optimization, no need to move stuff down to lower, empty floors
+            if elev == 1 and len(floors[0]) == 0:
+                down = False
+            if elev == 2 and len(floors[0]) == 0 and len(floors[1]) == 0:
+                down = False
 
             used = set()
             for d in ['up' if up else None, 'down' if down else None]:
