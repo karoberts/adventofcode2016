@@ -15,8 +15,12 @@ with open('12.txt') as f:
 
 regs = {'a': 0, 'b': 0, 'c': 0, 'd': 0}
 
+# part 2
+regs = {'a': 0, 'b': 0, 'c': 1, 'd': 0}
+
 ip = 0
 stmts = 0
+last_d = -1
 while True:
     if ip >= len(program) or ip < 0:
         print('HALT')
@@ -41,8 +45,9 @@ while True:
         if (n1 and n1 != 0) or (regs[i1] != 0):
             ip += n2 - 1
 
-    #if regs['d'] == 0:
-        #print(ip, regs)
+    if regs['d'] != last_d :
+        print(ip, regs)
+        last_d = regs['d']
 
     ip += 1
 
