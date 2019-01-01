@@ -1,4 +1,3 @@
-
 import sys
 from collections import defaultdict
 import heapq
@@ -112,4 +111,6 @@ dist = defaultdict(lambda :999999999)
 
 x = dijkstra()
 
-print(dist[key(target_x, target_y)])
+print('part1', dist[key(target_x, target_y)])
+
+print('part2', sum((1 for x in dist.values() if x <= 50)))
