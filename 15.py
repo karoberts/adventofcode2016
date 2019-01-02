@@ -19,7 +19,7 @@ discs.append(Disc(np=7, p=0, last=True))
 
 # 0 1 2
 
-part2 = False
+part2 = True
 if part2:
     discs[-1].last = False
     discs.append(Disc(np=11, p=0, last=True))
@@ -35,6 +35,14 @@ t += 1
 for d in discs:
     d.p = (d.p + 1) % d.np
 
+def check():
+    i = 0
+    for d in discs:
+        if d.p != abs(d.np - i) % d.np:
+            return True
+        i += 1
+    return False
+
 while True:
     tdelt = 0
     for d in discs:
@@ -47,4 +55,11 @@ while True:
     t += 1
     for d in discs:
         d.p = (d.p + 1) % d.np
+    # optimization, make sure discs are in right position, skipping disc 0 to pos 0 each try
+    # reduces part 2 by 75%
+    while check():
+        delt = discs[0].np - discs[0].p
+        t += delt
+        for d in discs:
+            d.p = (d.p + delt) % d.np
             
