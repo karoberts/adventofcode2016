@@ -7,28 +7,27 @@ from recordtype import recordtype
 #Disc #5 has 19 positions; at time=0, it is at position 9.
 #Disc #6 has 7 positions; at time=0, it is at position 0.
 
-Disc = recordtype('Disc', 'np p last')
+Disc = recordtype('Disc', 'np p')
 
 discs = []
-discs.append(Disc(np=5, p=2, last=False))
-discs.append(Disc(np=13, p=7, last=False))
-discs.append(Disc(np=17, p=10, last=False))
-discs.append(Disc(np=3, p=2, last=False))
-discs.append(Disc(np=19, p=9, last=False))
-discs.append(Disc(np=7, p=0, last=True))
+discs.append(Disc(np=5, p=2))
+discs.append(Disc(np=13, p=7))
+discs.append(Disc(np=17, p=10))
+discs.append(Disc(np=3, p=2))
+discs.append(Disc(np=19, p=9))
+discs.append(Disc(np=7, p=0))
 
 # 0 1 2
 
 part2 = True
 if part2:
-    discs[-1].last = False
-    discs.append(Disc(np=11, p=0, last=True))
+    discs.append(Disc(np=11, p=0))
 
 test = False
 if test:
     discs = []
-    discs.append(Disc(np=5, p=4, last=False))
-    discs.append(Disc(np=2, p=1, last=True))
+    discs.append(Disc(np=5, p=4))
+    discs.append(Disc(np=2, p=1))
 
 t = 0
 t += 1
@@ -48,10 +47,10 @@ while True:
     for d in discs:
         if (d.p + tdelt) % d.np != 0:
             break
-        if d.last:
-            print('t=',t-1)
-            exit()
         tdelt += 1
+    else:
+        print('t=',t-1)
+        exit()
     t += 1
     for d in discs:
         d.p = (d.p + 1) % d.np
