@@ -1,8 +1,12 @@
 disk = 20
 d = '10000'
 
+# part 1
 disk = 272
 d = '10111011111001111'
+
+# part 2
+disk = 35651584
 
 intab = "10"
 outtab = "01"
@@ -14,7 +18,7 @@ while len(d) < disk:
     d = a + '0' + b
 
 d = d[:disk]
-print(d)
+#print(d)
 
 def checksum(d):
     ck = ''
