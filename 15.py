@@ -17,13 +17,18 @@ discs.append(Disc(np=3, p=2, last=False))
 discs.append(Disc(np=19, p=9, last=False))
 discs.append(Disc(np=7, p=0, last=True))
 
+# 0 1 2
+
+part2 = False
+if part2:
+    discs[-1].last = False
+    discs.append(Disc(np=11, p=0, last=True))
+
 test = False
 if test:
     discs = []
     discs.append(Disc(np=5, p=4, last=False))
     discs.append(Disc(np=2, p=1, last=True))
-
-# > 22767
 
 t = 0
 t += 1
