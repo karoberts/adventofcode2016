@@ -10,34 +10,31 @@ nrows = 400_000 # part 2
 
 def is_trap(prev_row, i):
     l = False if i == 0 else prev_row[i-1]
-    c = prev_row[i]
-    r = False if i == len(row1)-1 else prev_row[i+1]
+    r = False if i == nlen-1 else prev_row[i+1]
 
-    if l and c and not r:
-        return True
-    if r and c and not l:
-        return True
-    if l and not c and not r:
-        return True
-    if r and not c and not l:
-        return True
+    return not (l == r)
 
-    return False
-
+nlen = len(row1)
 row = [x == '^' for x in row1]
 nsafe = 0
 for n in row:
     if not n:
         nsafe += 1
 print(''.join(['^' if x else '.' for x in row]))
-next_row = [False] * len(row1)
+
+lists = [ row, [False] * len(row1) ]
+lid = 0
+
 for r in range(0, nrows - 1):
-    for i in range(0, len(row1)):
+    nlid = (lid + 1) % 2
+    row = lists[lid]
+    nextrow = lists[nlid]
+    for i in range(0, nlen):
         n = is_trap(row, i)
-        next_row[i] = n
+        nextrow[i] = n
         if not n:
             nsafe += 1
-    row = copy(next_row)
+    lid = nlid
     #print(''.join(['^' if x else '.' for x in row]))
     if r % 10000 == 0:
        print(r)
