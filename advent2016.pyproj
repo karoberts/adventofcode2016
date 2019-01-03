@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a252d8a4-583d-4938-8797-b92313ded19d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>19.py</StartupFile>
+    <StartupFile>19-2.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -79,9 +79,11 @@
     <Compile Include="18.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="19.py">
+    <Compile Include="19-2.py" />
+    <Compile Include="19-1.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="dllist.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
