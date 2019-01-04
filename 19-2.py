@@ -3,15 +3,6 @@ import dllist
 #nelves = 5
 nelves = 3014603
 
-# shameless stolen from reddit thread.  my solution took > 5 hours
-def part2(n):
-    from math import log
-    p = 3**int(log(n-1,3))
-    return n-p+max(n-2*p,0)
-
-print(part2(nelves))
-exit()
-
 # < 1507297
 # > 1376176
 
@@ -37,22 +28,25 @@ def find_e(e):
     return ne
 
 e = elfpres.first
+ce = find_e(e)
 #ce = find_e(e)
 ct = 0
 while True:
     ct += 1
     #e_with_p = ce
-    e_with_p = find_e(e)
+    e_with_p = ce
 
     #print(e.value,'steals from',e_with_p.value)
-    print(e_with_p.value, e_with_p.value // 3)
-    if ct > 100:
-        break
-    #ce = inc(e_with_p)
-    #ce = inc(ce)
+    #print(e_with_p.value, e_with_p.value // 3)
+    ce = inc(e_with_p)
+
+    # i had originally approached it this way, but only got this mod 2 part from reading reddit thread
+    # brute force approach took > 5 hours
+    if len(elfpres) % 2 == 1:
+        ce = inc(ce)
     elfpres.remove(e_with_p)
     e = inc(e)
-    if len(elfpres) % 10000 == 0:
+    if len(elfpres) % 100000 == 0:
         print(len(elfpres))
     if len(elfpres) == 1:
         print(elfpres, e)
