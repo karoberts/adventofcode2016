@@ -85,6 +85,8 @@
     </Compile>
     <Compile Include="20-1.py" />
     <Compile Include="20-2.py" />
+    <Compile Include="21-1.py" />
+    <Compile Include="21-2.py" />
     <Compile Include="dllist.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
