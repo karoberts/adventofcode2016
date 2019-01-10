@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace cs
 {
-    class Program
+    class Program23
     {
         class Oper
         {
@@ -41,19 +41,24 @@ namespace cs
 
         private static string regs2str<K, V>(IEnumerable<KeyValuePair<K, V>> regs) => string.Join(",", regs.Select(k => $"{k.Key}: {k.Value}"));
 
-        private static bool runit(int a, List<Oper> program)
+        static void Main(string[] args)
         {
+            var program = new List<Oper>();
+            foreach (var line in File.ReadAllLines("../23.txt"))
+            {
+                var m = line.Trim().Split(' ');
+                program.Add(new Oper(m, line));
+            }
+
             var regs = new Dictionary<string, int>()
             {
-                ["a"] = a,
+                ["a"] = 12,
                 ["b"] = 0,
                 ["c"] = 0,
                 ["d"] = 0
             };
 
             int ip = 0;
-            int last_out = -1;
-            int outs = 0;
 
             while (true)
             {
@@ -76,50 +81,29 @@ namespace cs
                     regs[p.Arg1] -= 1;
                 else if (p.Op == "jnz")
                 {
-                    if ((p.IntArg1.HasValue && p.IntArg1 != 0) || (!p.IntArg1.HasValue && regs[p.Arg1] != 0))
+                    if ((p.IntArg1.HasValue && p.IntArg1 != 0) || (regs[p.Arg1] != 0))
                         ip += (p.IntArg2 ?? regs[p.Arg2]) - 1;
                 }
-                else if (p.Op == "out")
+                else if (p.Op == "tgl")
                 {
-                    if (last_out == -1)
-                        last_out = regs[p.Arg1];
-                    else if (regs[p.Arg1] == last_out)
-                        return false;
-                    last_out = regs[p.Arg1];
-                    outs += 1;
+                    Console.WriteLine("toggle" + p + regs2str(regs) + " ip: " + ip);
+                    foreach (var pr in program)
+                        Console.WriteLine($"  {pr.Op}   {pr.Line}");
+                    var instN = ip + (p.IntArg1 ?? regs[p.Arg1]);
+                    if (instN >= 0 && instN < program.Count)
+                    {
+                        var inst = program[instN];
+                        if (inst.Op == "inc") inst.Op = "dec";
+                        else if (inst.Op == "dec" || inst.Op == "tgl") inst.Op = "inc";
+                        else if (inst.Op == "jnz") inst.Op = "cpy";
+                        else if (inst.Op == "cpy") inst.Op = "jnz";
+                    }
                 }
 
                 ip += 1;
-
-                if (outs > 25)
-                    return true;
             }
 
-            return false;
-        }
-
-        static void Main(string[] args)
-        {
-            var program = new List<Oper>();
-            foreach (var line in File.ReadAllLines("../25.txt"))
-            {
-                var m = line.Trim().Split(' ');
-                program.Add(new Oper(m, line));
-            }
-
-            for (int i = 0; i < 9000; i++)
-            {
-                if (runit(i, program))
-                {
-                    Console.WriteLine($"found it {i}");
-                    break;
-                }
-                else
-                {
-                    if (i % 1000 == 0)
-                        Console.WriteLine($"i = {i}");
-                }
-            }
+            Console.WriteLine(regs2str(regs));
         }
     }
 }
