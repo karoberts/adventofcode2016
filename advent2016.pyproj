@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a252d8a4-583d-4938-8797-b92313ded19d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>23-1.py</StartupFile>
+    <StartupFile>23-2.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -87,9 +87,12 @@
     <Compile Include="20-2.py" />
     <Compile Include="21-1.py" />
     <Compile Include="21-2.py" />
+    <Compile Include="22-1.py" />
+    <Compile Include="22-2.py" />
     <Compile Include="23-1.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="23-2.py" />
     <Compile Include="dllist.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
