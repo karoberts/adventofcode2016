@@ -1,5 +1,7 @@
 import re
 
+# C# program finds the answer
+
 program = []
 with open('25.txt') as f:
 

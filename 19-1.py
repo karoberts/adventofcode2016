@@ -29,8 +29,10 @@ while True:
     elfpres[e] += elfpres[e_with_p]
     elfpres[e_with_p] = 0
     e_no_p.add(e_with_p)
+    """
     if len(e_no_p) % 100000 == 0:
         print(len(e_no_p))
+        """
     #e = inc(e)
     e = inc(e_with_p)
 

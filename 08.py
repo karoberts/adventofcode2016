@@ -41,5 +41,5 @@ print('part1', ct)
 
 for y in range(0, 6):
     for x in range(0, 50):
-        print('#' if grid[key(x,y)] else '.', end='')
+        print('#' if grid[key(x,y)] else ' ', end='')
     print()

@@ -12,19 +12,15 @@ floors = [None] * 4
 #The fourth floor contains nothing relevant.
 
 # polonium generator, thulium generator, thulium microchip, promethium generator, ruthenium generator, ruthenium microchip, cobalt generator, cobalt microchip
-generators = set(['PG', 'TG', 'RG', 'CG', 'pG'])
-microchips = set(['PM', 'TM', 'RM', 'CM', 'pM'])
-floors[0] = set(['PG', 'TG', 'TM', 'pG', 'RG', 'RM', 'CG', 'CM'])
-floors[1] = set(['PM', 'pM'])
-floors[2] = set([])
-floors[3] = set([])
-elev = 0
-
-part2 = True
-if part2:
-    generators.update(['eG', 'dG'])
-    microchips.update(['eM', 'dM'])
-    floors[0].update(['eG', 'dG', 'eM', 'dM'])
+def setup():
+    global generators, microchips, floors, elev
+    generators = set(['PG', 'TG', 'RG', 'CG', 'pG'])
+    microchips = set(['PM', 'TM', 'RM', 'CM', 'pM'])
+    floors[0] = set(['PG', 'TG', 'TM', 'pG', 'RG', 'RM', 'CG', 'CM'])
+    floors[1] = set(['PM', 'pM'])
+    floors[2] = set([])
+    floors[3] = set([])
+    elev = 0
 
 # test
 test = False
@@ -141,7 +137,7 @@ def bfs(qnow):
 
     round = 0
     while True:
-        print(round)
+        #print(round)
         round += 1
         for thismove in qnow:
             moves = []
@@ -199,6 +195,8 @@ def bfs(qnow):
         qnow = qnext
         qnext = []
 
+setup()
+
 found_steps = 9999999999
 #found_steps = 20
 
@@ -207,4 +205,20 @@ used_floors = {floors_to_key(floors, elev): 0}
 #minsteps = recur(floors, elev, 0)
 
 minsteps = bfs([(floors, elev, 0)])
-print('answer', minsteps)
+print('part1', minsteps)
+
+setup()
+
+generators.update(['eG', 'dG'])
+microchips.update(['eM', 'dM'])
+floors[0].update(['eG', 'dG', 'eM', 'dM'])
+
+found_steps = 9999999999
+#found_steps = 20
+
+used_floors = {floors_to_key(floors, elev): 0}
+
+#minsteps = recur(floors, elev, 0)
+
+minsteps = bfs([(floors, elev, 0)])
+print('part2', minsteps)

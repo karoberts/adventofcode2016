@@ -46,8 +46,10 @@ while True:
         ce = inc(ce)
     elfpres.remove(e_with_p)
     e = inc(e)
+    """
     if len(elfpres) % 100000 == 0:
         print(len(elfpres))
+    """
     if len(elfpres) == 1:
         print(elfpres, e)
         break
