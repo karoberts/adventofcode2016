@@ -1,0 +1,14 @@
+[package]
+name = "rust"
+version = "0.1.0"
+authors = ["karoberts <cppwriter@yahoo.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+regex = "1"
+fnv = "1.0.6"
+arrayvec = "0.5.1"                   # A vector with fixed capacity, backed by an array (it can be stored on the stack too). Impl…
+lazy_static = "1.4.0"            # A macro for declaring lazily evaluated statics in Rust.
+
