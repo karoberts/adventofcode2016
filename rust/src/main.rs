@@ -92,6 +92,6 @@ fn main()
         }
     }
     else {
-        run_timer( day01::_run );
+        run_timer( day02::_run );
     }
 }
