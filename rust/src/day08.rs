@@ -64,7 +64,7 @@ pub fn _run()
     /*
     for y in 0..6 {
         for x in 0..50 {
-            print!("{}", if grid[y][x] {'#'} else {' '});
+            print!("{}", if grid[y][x] {"\u{2588}"} else {" "});
         }
         println!();
     }
