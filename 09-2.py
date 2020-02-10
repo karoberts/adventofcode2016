@@ -7,31 +7,6 @@ def extract(l, p):
     if m is None: return None
     return (int(m.group(1)), int(m.group(2)), m.group(0))
 
-def process(pos, endpos):
-    global line
-    global ln
-
-    while pos < endpos:
-        if line[pos] == '(':
-            mark = extract(line, pos)
-            if mark is None:
-                ln += 1
-                pos += 1
-                continue
-
-            pos += len(mark[2])
-            for rep in range(0, mark[1]):
-                for j in range(pos, pos + mark[0]):
-                    if line[j] == '(':
-                        process(j, j + mark[0])
-                        break
-                    else:
-                        ln += 1
-            pos += mark[0]
-        else:
-            ln += 1
-            pos += 1
-
 def processq():
     global line
 
@@ -56,6 +31,7 @@ def processq():
                 pos += len(mark[2])
                 for rep in range(0, mark[1]):
                     for j in range(pos, pos + mark[0]):
+                        # this block enables part 2
                         if line[j] == '(':
                             if rep == 0:
                                 q.append((j, j + mark[0], mark[1] * tx))
