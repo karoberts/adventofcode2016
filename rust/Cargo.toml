@@ -13,3 +13,4 @@ arrayvec = "0.5.1"                   # A vector with fixed capacity, backed by a
 lazy_static = "1.4.0"            # A macro for declaring lazily evaluated statics in Rust.
 
 counter = "0.4.3"               # Simple package to count generic iterables
+rust-crypto = "0.2.36"
