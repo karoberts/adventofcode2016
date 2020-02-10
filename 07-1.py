@@ -11,22 +11,17 @@ def testlet(s):
 with open('7.txt') as f:
     ct = 0
     for line in (l.strip() for l in f):
-        st = 'LET'
         curlet = ''
         haslet = False
         hasinner = False
         for c in line:
             if c == '[': 
-                st = 'INBR'
                 haslet = haslet or testlet(curlet)
                 curlet = ''
             elif c == ']': 
-                st = 'LET'
                 hasinner = hasinner or testlet(curlet)
                 curlet = ''
-            elif st == 'INBR':
-                curlet += c
-            elif st == 'LET':
+            else:
                 curlet += c
         haslet = haslet or testlet(curlet)
         if haslet and not hasinner:
