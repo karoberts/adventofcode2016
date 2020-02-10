@@ -13,22 +13,17 @@ def test(s, abas):
 with open('7.txt') as f:
     ct = 0
     for line in (l.strip() for l in f):
-        st = 'LET'
         curlet = ''
         abas = []
         babs = []
         for c in line:
             if c == '[': 
-                st = 'INBR'
                 test(curlet, abas)
                 curlet = ''
             elif c == ']': 
-                st = 'LET'
                 test(curlet, babs)
                 curlet = ''
-            elif st == 'INBR':
-                curlet += c
-            elif st == 'LET':
+            else:
                 curlet += c
         test(curlet, abas)
 
