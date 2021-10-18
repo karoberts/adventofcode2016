@@ -1,35 +1,49 @@
 use super::utils;
 
-fn setup(generators : &mut utils::HashSetFnv<String>, microchips : &mut utils::HashSetFnv<String>, floors : &mut Vec<utils::HashSetFnv<String>>)
+fn setup(generators : &mut utils::HashSetFnv<String>, microchips : &mut utils::HashSetFnv<String>, floors : &mut Vec<utils::HashSetFnv<String>>, test: bool)
 {
-    generators.insert("PG".to_owned());
-    generators.insert("TG".to_owned());
-    generators.insert("RG".to_owned());
-    generators.insert("CG".to_owned());
-    generators.insert("pG".to_owned());
-
-    microchips.insert("PM".to_owned());
-    microchips.insert("TM".to_owned());
-    microchips.insert("RM".to_owned());
-    microchips.insert("CM".to_owned());
-    microchips.insert("pM".to_owned());
-
     floors.push(utils::HashSetFnv::<String>::default());
     floors.push(utils::HashSetFnv::<String>::default());
     floors.push(utils::HashSetFnv::<String>::default());
     floors.push(utils::HashSetFnv::<String>::default());
 
-    floors[0].insert("PG".to_owned());
-    floors[0].insert("TG".to_owned());
-    floors[0].insert("TM".to_owned());
-    floors[0].insert("pG".to_owned());
-    floors[0].insert("RG".to_owned());
-    floors[0].insert("RM".to_owned());
-    floors[0].insert("CG".to_owned());
-    floors[0].insert("CM".to_owned());
+    if test {
+        generators.insert("HG".to_owned());
+        generators.insert("LG".to_owned());
 
-    floors[1].insert("PM".to_owned());
-    floors[1].insert("pM".to_owned());
+        microchips.insert("HM".to_owned());
+        microchips.insert("LM".to_owned());
+
+        floors[0].insert("HM".to_owned());
+        floors[0].insert("LM".to_owned());
+        floors[1].insert("HG".to_owned());
+        floors[2].insert("LG".to_owned());
+    }
+    else {
+        generators.insert("PG".to_owned());
+        generators.insert("TG".to_owned());
+        generators.insert("RG".to_owned());
+        generators.insert("CG".to_owned());
+        generators.insert("pG".to_owned());
+
+        microchips.insert("PM".to_owned());
+        microchips.insert("TM".to_owned());
+        microchips.insert("RM".to_owned());
+        microchips.insert("CM".to_owned());
+        microchips.insert("pM".to_owned());
+
+        floors[0].insert("PG".to_owned());
+        floors[0].insert("TG".to_owned());
+        floors[0].insert("TM".to_owned());
+        floors[0].insert("pG".to_owned());
+        floors[0].insert("RG".to_owned());
+        floors[0].insert("RM".to_owned());
+        floors[0].insert("CG".to_owned());
+        floors[0].insert("CM".to_owned());
+
+        floors[1].insert("PM".to_owned());
+        floors[1].insert("pM".to_owned());
+    }
 }
 
 fn floors_to_key(floors: &Vec<utils::HashSetFnv<String>>, elev:i32) -> String
@@ -84,7 +98,8 @@ fn to_gen(i:&String) -> String
 
 fn is_valid_floor(f: &utils::HashSetFnv<String>, generators : &utils::HashSetFnv<String>, microchips : &utils::HashSetFnv<String>) -> bool
 {
-    if generators.union(f).count() > 0 {
+    //println!("count = {:?} {:?} {:?}", generators.intersection(f).count(), f, generators.intersection(f));
+    if generators.intersection(f).count() > 0 {
         for i in f.iter() {
             if microchips.contains(i) && !f.contains(&to_gen(i)) {
                 return false;
@@ -97,7 +112,11 @@ fn is_valid_floor(f: &utils::HashSetFnv<String>, generators : &utils::HashSetFnv
 
 fn is_valid_move(old_floor: &utils::HashSetFnv<String>, new_floor: &utils::HashSetFnv<String>, generators : &utils::HashSetFnv<String>, microchips : &utils::HashSetFnv<String>) -> bool
 {
-    return is_valid_floor(old_floor, generators, microchips) && is_valid_floor(new_floor, generators, microchips);
+    //println!("v1: old {:?} new {:?}", old_floor, new_floor);
+    let ov = is_valid_floor(old_floor, generators, microchips);
+    let nv = is_valid_floor(new_floor, generators, microchips);
+    //println!("v2: old {:?} new {:?}", ov, nv);
+    return ov && nv;
 }
 
 #[derive(Clone, Debug)]
@@ -108,7 +127,21 @@ struct QItem
     steps: i32
 }
 
-fn bfs(generators : &utils::HashSetFnv<String>, microchips : &utils::HashSetFnv<String>, floors : &mut Vec<utils::HashSetFnv<String>>) -> i32
+fn deepcopy_floors(input : &Vec<utils::HashSetFnv<String>>) -> Vec<utils::HashSetFnv<String>>
+{
+    return input.iter().map(|h| h.clone()).collect();
+}
+
+fn deepcopy_qitems(input : &Vec<QItem>) -> Vec<QItem>
+{
+    return input.iter().map(|h| {
+        let mut n = h.clone();
+        n.floors = deepcopy_floors(&h.floors);
+        return n;
+    } ).collect();
+}
+
+fn bfs(generators : &utils::HashSetFnv<String>, microchips : &utils::HashSetFnv<String>, floors : &Vec<utils::HashSetFnv<String>>) -> i32
 {
     let mut used_floors : utils::HashMapFnv<String, i32> = fastmap!();
     used_floors.insert(floors_to_key(&floors, 0), 0);
@@ -116,17 +149,19 @@ fn bfs(generators : &utils::HashSetFnv<String>, microchips : &utils::HashSetFnv<
     let mut qnext : Vec<QItem> = vec!();
     let mut qnow : Vec<QItem> = vec!();
 
-    qnow.push(QItem { floors: floors.clone(), elev: 0, steps: 0});
+    qnow.push(QItem { floors: deepcopy_floors(floors), elev: 0, steps: 0});
 
-    loop {
+    while qnow.len() > 0 {
+        //println!("loop");
         for thismove in qnow.iter() {
+            //println!("  iter {:?}", thismove);
             if is_done(generators, microchips, &thismove.floors, thismove.elev) {
                 return thismove.steps;
             }
 
             let up = thismove.elev < 3;
             let mut down = thismove.elev > 0;
-            let floor = &floors[thismove.elev as usize];
+            let floor = &thismove.floors[thismove.elev as usize];
 
             // minor optimization, no need to move stuff down to lower, empty floors
             if thismove.elev == 1 && thismove.floors[0].len() == 0 {
@@ -136,10 +171,14 @@ fn bfs(generators : &utils::HashSetFnv<String>, microchips : &utils::HashSetFnv<
                 down = false;
             }
 
+            //println!("    up {:?} down {:?} floor {:?}", up, down, floor);
+
             let mut used : utils::HashSetFnv<String> = fastset!();
             let mut moves : Vec<(i32, String, Option<String>)> = vec!();
 
-            for d in 0..1 {
+            // 0 == up
+            // 1 == down
+            for d in 0..2 {
                 if d == 0 && !up { continue; }
                 if d == 1 && !down { continue; }
                 for i in floor.iter() {
@@ -156,12 +195,18 @@ fn bfs(generators : &utils::HashSetFnv<String>, microchips : &utils::HashSetFnv<
                 }
             }
 
+            //println!("    moves {:?}", moves);
+
             for m in moves {
-                let mut new_floors = floors.clone();
+                //println!("      move {:?}", m);
+                let mut new_floors = deepcopy_floors(&thismove.floors);
                 let nx_floor_n = if m.0 == 0 {thismove.elev + 1} else {thismove.elev - 1};
+
+                //println!("        new_floors {:?}", new_floors);
 
                 new_floors[thismove.elev as usize].remove(&m.1);
                 new_floors[nx_floor_n as usize].insert(m.1);
+
                 match m.2 {
                     Some(x) => {
                         new_floors[thismove.elev as usize].remove(&x);
@@ -169,23 +214,28 @@ fn bfs(generators : &utils::HashSetFnv<String>, microchips : &utils::HashSetFnv<
                     },
                     None => ()
                 }
+                //println!("        new_floors2 {:?}", new_floors);
                 if is_valid_move(&new_floors[thismove.elev as usize], &new_floors[nx_floor_n as usize], generators, microchips) {
+                    //println!("        valid");
                     let nk = floors_to_key(&new_floors, nx_floor_n);
                     let best_steps = if used_floors.contains_key(&nk) {used_floors.get(&nk)} else {None};
                     if best_steps.is_none() || thismove.steps < *best_steps.unwrap() {
                         used_floors.insert(nk, thismove.steps);
-                        qnext.push(QItem { floors: new_floors, elev: nx_floor_n, steps: thismove.steps + 1});
+                        let q = QItem { floors: new_floors, elev: nx_floor_n, steps: thismove.steps + 1};
+                        //println!("        next added {:?}", q);
+                        qnext.push(q);
                     }
                 }
             }
 
-            println!("qnext {:?}", qnext);
-            return 0;
+            //println!("    qnext {:?}, qnow {:?}", qnext, qnow);
+            //return 0;
         }
 
-        qnow = qnext.clone();
+        qnow = deepcopy_qitems(&qnext);
         qnext.clear();
     }
+    return -1;
 }
 
 pub fn _run() 
@@ -194,7 +244,7 @@ pub fn _run()
     let mut microchips : utils::HashSetFnv<String> = fastset!();
     let mut floors : Vec<utils::HashSetFnv<String>> = vec!();
 
-    setup(&mut generators, &mut microchips, &mut floors);
+    setup(&mut generators, &mut microchips, &mut floors, false);
 
     let minsteps = bfs(&generators, &microchips, &mut floors);
     println!("day11-01: {}", minsteps);

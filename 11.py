@@ -22,15 +22,16 @@ def setup():
     floors[3] = set([])
     elev = 0
 
+    if test:
+        generators = set(['HG', 'LG'])
+        microchips = set(['HM', 'LM'])
+        floors[0] = set(['HM', 'LM'])
+        floors[1] = set(['HG'])
+        floors[2] = set(['LG'])
+        floors[3] = set([])
+
 # test
 test = False
-if test:
-    generators = set(['HG', 'LG'])
-    microchips = set(['HM', 'LM'])
-    floors[0] = set(['HM', 'LM'])
-    floors[1] = set(['HG'])
-    floors[2] = set(['LG'])
-    floors[3] = set([])
 
 def to_gen(i):
     return i[0] + 'G'
@@ -206,6 +207,9 @@ used_floors = {floors_to_key(floors, elev): 0}
 
 minsteps = bfs([(floors, elev, 0)])
 print('part1', minsteps)
+
+if test:
+    quit()
 
 setup()
 
