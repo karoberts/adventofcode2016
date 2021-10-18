@@ -244,8 +244,30 @@ pub fn _run()
     let mut microchips : utils::HashSetFnv<String> = fastset!();
     let mut floors : Vec<utils::HashSetFnv<String>> = vec!();
 
+    let test = false;
+
+    setup(&mut generators, &mut microchips, &mut floors, test);
+
+    let mut minsteps = bfs(&generators, &microchips, &floors);
+    println!("day11-01: {}", minsteps);
+
+    if test
+    {
+        return;
+    }
+
     setup(&mut generators, &mut microchips, &mut floors, false);
 
-    let minsteps = bfs(&generators, &microchips, &mut floors);
-    println!("day11-01: {}", minsteps);
+    generators.insert("eG".to_owned());
+    generators.insert("dG".to_owned());
+    microchips.insert("eM".to_owned());
+    microchips.insert("dM".to_owned());
+    floors[0].insert("eG".to_owned());
+    floors[0].insert("dG".to_owned());
+    floors[0].insert("eM".to_owned());
+    floors[0].insert("dM".to_owned());
+
+    minsteps = bfs(&generators, &microchips, &floors);
+    println!("day11-02: {}", minsteps);
+
 }
