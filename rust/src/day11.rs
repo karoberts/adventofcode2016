@@ -249,7 +249,7 @@ pub fn _run()
     setup(&mut generators, &mut microchips, &mut floors, test);
 
     let mut minsteps = bfs(&generators, &microchips, &floors);
-    println!("day11-01: {}", minsteps);
+    println!("day11-1: {}", minsteps);
 
     if test
     {
@@ -268,6 +268,5 @@ pub fn _run()
     floors[0].insert("dM".to_owned());
 
     minsteps = bfs(&generators, &microchips, &floors);
-    println!("day11-02: {}", minsteps);
-
+    println!("day11-2: {}", minsteps);
 }
