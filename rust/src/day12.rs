@@ -32,16 +32,19 @@ fn run(program : &Vec<ProgItem>, regs: &mut utils::HashMapFnv<char, i32>)
         }
 
         let pline = &program[ip as usize];
+        let op = pline.op.as_str();
 
-        match pline.op.as_str() {
-            "cpy" => regs.insert(pline.arg2.unwrap(), pline.arg1i.or_else(|| Some(regs[&pline.arg1.unwrap()])).unwrap()),
-            "inc" => regs.insert(pline.arg1.unwrap(), regs[&pline.arg1.unwrap()] + 1),
-            "dec" => regs.insert(pline.arg1.unwrap(), regs[&pline.arg1.unwrap()] - 1),
-            "jnz" => None,
-            _ => panic!("unsupported op")
-        };
-
-        if pline.op == "jnz" {
+        if op == "cpy" {
+            let arg = pline.arg1i.or_else(|| Some(regs[&pline.arg1.unwrap()]));
+            *regs.entry(pline.arg2.unwrap()).or_default() = arg.unwrap();
+        }
+        else if op == "inc" {
+            *regs.entry(pline.arg1.unwrap()).or_default() += 1;
+        }
+        else if op == "dec" { 
+            *regs.entry(pline.arg1.unwrap()).or_default() -= 1;
+        }
+        else if op == "jnz" {
             if (pline.arg1i.is_some() && pline.arg1i.unwrap() != 0) || (regs[&pline.arg1.unwrap()] != 0) {
                 ip += pline.arg2i.unwrap() - 1;
             }
