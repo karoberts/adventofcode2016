@@ -41,6 +41,7 @@ fn decrypt(name:&String, sector:i32) -> String {
 
 pub fn _run() 
 {
+    let s = utils::run_timer_start(4, 1);
     let pat = Regex::new(r"^([a-z\-]+)-(\d+)\[([a-z]{5})\]$").unwrap();
     let lines = utils::read_lines("../4.txt").unwrap();
     let mut secsum = 0;
@@ -65,6 +66,8 @@ pub fn _run()
         }
     }
 
-    println!("day04-1: {}", secsum);
-    println!("day04-2: {}", part2.unwrap());
+    utils::run_timer_end(s, secsum);
+
+    utils::run_timer_start(4, 2);
+    utils::run_timer_end(None, part2.unwrap());
 }

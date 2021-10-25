@@ -4,6 +4,8 @@ use super::utils;
 
 pub fn _run() 
 {
+    let s = utils::run_timer_start(6, 1);
+
     let mut part1 = String::from("");
     let mut part2 = String::from("");
 
@@ -27,6 +29,8 @@ pub fn _run()
         part2.push( *mc.last().unwrap().0 );
     }
 
-    println!("day06-1: {}", part1);
-    println!("day06-2: {}", part2);
+    utils::run_timer_end(s, part1);
+
+    utils::run_timer_start(6, 2);
+    utils::run_timer_end(None, part2);
 }

@@ -74,11 +74,15 @@ pub fn _run()
         program.push(p);
     }
 
+    let s = utils::run_timer_start(11, 1);
+
     let mut regs = hashmap!['a' => 0, 'b' => 0, 'c' => 0, 'd' => 0];
     run(&program, &mut regs);
-    println!("day12-1: {}", regs[&'a']);
+    utils::run_timer_end(s, regs[&'a']);
+
+    let s = utils::run_timer_start(11, 2);
 
     let mut regs = hashmap!['a' => 0, 'b' => 0, 'c' => 1, 'd' => 0];
     run(&program, &mut regs);
-    println!("day12-2: {}", regs[&'a']);
+    utils::run_timer_end(s, regs[&'a']);
 }

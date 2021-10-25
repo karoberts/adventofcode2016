@@ -79,6 +79,6 @@ fn run(stretch : i32) -> i32 {
 
 pub fn _run() 
 {    
-    println!("day14-1: {}", run(1));
-    println!("day14-1: {}", run(2017));
+    utils::run_timer(|| run(1), 14, 1);
+    utils::run_timer(|| run(2017), 14, 2);
 }

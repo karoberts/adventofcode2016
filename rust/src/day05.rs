@@ -1,4 +1,6 @@
 extern crate crypto;
+
+use super::utils;
   
 use crypto::md5::Md5;
 use crypto::digest::Digest;
@@ -14,6 +16,8 @@ pub fn to_chr(c:u8) -> char {
 
 pub fn _run() 
 {    
+    let s = utils::run_timer_start(5, 1);
+
     let key = "cxdnnyjw".as_bytes();
     let mut n = 1;
 
@@ -49,6 +53,8 @@ pub fn _run()
         hasher.reset();
     }
 
-    println!("day05-1: {}", password1);
-    println!("day05-2: {}", password2.iter().collect::<String>());
+    utils::run_timer_end(s, password1);
+
+    utils::run_timer_start(5, 2);
+    utils::run_timer_end(None, password2.iter().collect::<String>());
 }

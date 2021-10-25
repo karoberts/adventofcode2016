@@ -246,15 +246,19 @@ pub fn _run()
 
     let test = false;
 
+    let s = utils::run_timer_start(11, 1);
+
     setup(&mut generators, &mut microchips, &mut floors, test);
 
     let mut minsteps = bfs(&generators, &microchips, &floors);
-    println!("day11-1: {}", minsteps);
+    utils::run_timer_end(s, minsteps);
 
     if test
     {
         return;
     }
+
+    let s = utils::run_timer_start(11, 2);
 
     setup(&mut generators, &mut microchips, &mut floors, false);
 
@@ -268,5 +272,5 @@ pub fn _run()
     floors[0].insert("dM".to_owned());
 
     minsteps = bfs(&generators, &microchips, &floors);
-    println!("day11-2: {}", minsteps);
+    utils::run_timer_end(s, minsteps);
 }

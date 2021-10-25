@@ -29,6 +29,7 @@ fn run(keys: &utils::HashMapFnv<(i32,i32), char>, code:&mut Vec<char>)
 
 pub fn _run() 
 {
+    let s = utils::run_timer_start(2, 1);
     let mut keys1 : utils::HashMapFnv<(i32,i32), char> = fastmap!();
     keys1.insert((0,0), '5');
     keys1.insert((1,0), '6');
@@ -41,8 +42,9 @@ pub fn _run()
     keys1.insert((1,1), '9');
     let mut code : Vec<char> = vec!();
     run(&keys1, &mut code);
-    println!("day02-1: {}", String::from_iter(code));
+    utils::run_timer_end(s, String::from_iter(code));
 
+    let s = utils::run_timer_start(2, 2);
     code = vec!();
     let mut keys2 : utils::HashMapFnv<(i32,i32), char> = fastmap!();
     keys2.insert((0,0), '5');
@@ -60,5 +62,5 @@ pub fn _run()
     keys2.insert((2,2),  'D');
 
     run(&keys2, &mut code);
-    println!("day02-2: {}", String::from_iter(code));
+    utils::run_timer_end(s, String::from_iter(code));
 }

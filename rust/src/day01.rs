@@ -40,6 +40,8 @@ fn check_visit(pos:&mut (i32,i32), i:i32, d:i32, visits:&mut utils::HashSetFnv<(
 
 pub fn _run() 
 {
+    let s = utils::run_timer_start(1, 1);
+
     let contents = fs::read_to_string("../1.txt").unwrap();
 
     let mut dirs : Vec<(&str, i32)> = vec!();
@@ -74,6 +76,8 @@ pub fn _run()
         }
     }
 
-    println!("day01-1: {}", manhat_dist(0,0,pos.0,pos.1));
-    println!("day01-2: {}", part2ans.unwrap());
+    utils::run_timer_end(s, manhat_dist(0,0,pos.0,pos.1));
+
+    utils::run_timer_start(1, 2);
+    utils::run_timer_end(None, part2ans.unwrap());
 }

@@ -35,6 +35,8 @@ fn test(s:&Vec<char>, abas:&mut Vec<(char, char, char)>) {
 
 pub fn _run() 
 {
+    let s = utils::run_timer_start(7, 1);
+
     let lines = utils::read_lines("../7.txt").unwrap();
 
     let mut ct = 0;
@@ -83,6 +85,8 @@ pub fn _run()
         }
     }
 
-    println!("day07-1: {}", ct);
-    println!("day07-2: {}", ct2);
+    utils::run_timer_end(s, ct);
+
+    utils::run_timer_start(7, 2);
+    utils::run_timer_end(None, ct2);
 }

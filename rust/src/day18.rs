@@ -1,3 +1,5 @@
+use super::utils;
+
 fn is_trap(prev_row : &Vec<bool>, i: usize, nlen: usize) -> bool
 {
     let l = if i == 0 { false } else { prev_row[i-1] };
@@ -35,6 +37,6 @@ fn run(nrows:i32) -> usize
 
 pub fn _run() 
 {
-    println!("day18-1: {}", run(40));
-    println!("day18-2: {}", run(400_000));
+    utils::run_timer(|| run(40), 18, 1);
+    utils::run_timer(|| run(400_000), 18, 2);
 }

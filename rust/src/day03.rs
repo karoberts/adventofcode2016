@@ -8,6 +8,7 @@ fn test(a:i32, b:i32, c:i32) -> bool {
 
 pub fn _run() 
 {
+    let s = utils::run_timer_start(3, 1);
     let lines = utils::read_lines("../3.txt").unwrap();
     let mut ct = 0;
     let mut groupings : Vec<Vec<i32>> = vec!();
@@ -22,8 +23,9 @@ pub fn _run()
             ct += 1;
         }
     }
-    println!("day03-1: {}", ct);
+    utils::run_timer_end(s, ct);
 
+    let s = utils::run_timer_start(3, 2);
     ct = 0;
     for i in (0..groupings.len()).step_by(3) {
         for j in 0..3 {
@@ -33,5 +35,5 @@ pub fn _run()
         }
     }
 
-    println!("day03-2: {}", ct);
+    utils::run_timer_end(s, ct);
 }

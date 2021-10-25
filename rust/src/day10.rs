@@ -37,6 +37,8 @@ fn get_highlow(bot:&Bot) -> (i32, i32) {
 
 pub fn _run() 
 {
+    let s = utils::run_timer_start(10, 1);
+
     let lines = utils::read_lines("../10.txt").unwrap();
 
     let mut bots : utils::HashMapFnv<i32, RefCell<Bot>> = fastmap!();
@@ -78,7 +80,7 @@ pub fn _run()
                 bots_who_gave += 1;
                 let (l, h) = get_highlow(&bot);
                 if l == 17 && h == 61 {
-                    println!("day10-1: {}", bot.id);
+                    utils::run_timer_end(s, bot.id);
                 }
                 if bot.low_t == 'b' {
                     let low_bot = bots.get(&bot.low).unwrap();
@@ -103,5 +105,6 @@ pub fn _run()
         }
     }
 
-    println!("day10-2: {}", outputs.get(&0).unwrap() * outputs.get(&1).unwrap() * outputs.get(&2).unwrap() );
+    utils::run_timer_start(10, 2);
+    utils::run_timer_end(s, outputs.get(&0).unwrap() * outputs.get(&1).unwrap() * outputs.get(&2).unwrap());
 }

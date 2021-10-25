@@ -1,6 +1,9 @@
 use std::fs::File;
-use std::io::{self, BufRead};
+use std::io::{self, BufRead, Write};
 use std::path::Path;
+use std::time::{Instant, Duration};
+use std::fmt::Debug;
+use std::any::Any;
 
 use std::collections::{HashMap,HashSet};
 use std::hash::BuildHasherDefault;
@@ -61,5 +64,43 @@ pub fn cap_to<T: std::str::FromStr>(cap: Option<regex::Match>) -> T
             Err(_) => panic!("failed to parse {:?}", cap)
         },
         None => panic!("failed to get value {:?}", cap)
+    }
+}
+
+/// call this to log the output, only useful for fns, no closures
+#[allow(dead_code)]
+pub fn run_timer<T: Any + Debug>(f : fn() -> T, day : i32, part : i32) -> Duration
+{
+    print!("day{:0>2}-{}: ", day, part);
+    io::stdout().flush().unwrap();
+
+    let start = Instant::now();
+    let res = f();
+    let duration = start.elapsed();
+
+    println!("{: <20?} ==> {:?}", res, duration);
+    return duration;
+}
+
+/// use _start and _end for closures
+#[allow(dead_code)]
+pub fn run_timer_start(day : i32, part: i32) -> Option<Instant>
+{
+    print!("day{:0>2}-{}: ", day, part);
+    io::stdout().flush().unwrap();
+
+    return Some(Instant::now());
+}
+
+#[allow(dead_code)]
+pub fn run_timer_end<T: Any + Debug + std::fmt::Display>(start: Option<Instant>, o: T)
+{
+    if start.is_some() {
+        let duration = start.unwrap().elapsed();
+
+        println!("{: <20} ==> {:?}", o, duration);
+    }
+    else {
+        println!("{}", o);
     }
 }

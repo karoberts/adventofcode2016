@@ -1,3 +1,4 @@
+use super::utils;
 
 #[derive(Clone, Debug)]
 struct Disc
@@ -25,7 +26,7 @@ fn check(discs: &Vec<Disc>) -> bool
     return false;
 }
 
-pub fn run(part2: bool) 
+pub fn run(part2: bool) -> i32
 {
     let mut discs : Vec<Disc> = vec!();
 
@@ -67,13 +68,7 @@ pub fn run(part2: bool)
         }
 
         if !broke {
-            if !part2 {
-                println!("day15-1: {}",t-1);
-            }
-            else {
-                println!("day15-2: {}",t-1);
-            }
-            break;
+            return t-1;
         }
 
         t += 1;
@@ -94,6 +89,6 @@ pub fn run(part2: bool)
 
 pub fn _run()
 {
-    run(false);
-    run(true);
+    utils::run_timer(|| run(false), 15, 1);
+    utils::run_timer(|| run(true), 15, 2);
 }

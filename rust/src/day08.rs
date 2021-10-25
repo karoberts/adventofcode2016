@@ -4,6 +4,8 @@ use super::utils;
 
 pub fn _run() 
 {
+    let s = utils::run_timer_start(8, 1);
+
     let pat = Regex::new(r"^(rect) (\d+)x(\d+)|(rotate (?:row|column)) [yx]=(\d+) by (\d+)$").unwrap();
 
     let lines = utils::read_lines("../8.txt").unwrap();
@@ -57,9 +59,11 @@ pub fn _run()
             }
         }
     }
-    println!("day08-1: {}", ct);
 
-    println!("day08-2: {}", "UPOJFLBCEZ");
+    utils::run_timer_end(s, ct);
+
+    utils::run_timer_start(8, 2);
+    utils::run_timer_end(None, "UPOJFLBCEZ");
 
     /*
     for y in 0..6 {

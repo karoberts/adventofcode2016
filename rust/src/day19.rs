@@ -195,6 +195,6 @@ fn part2(nelves:i32) -> i32
 
 pub fn _run() 
 {
-    println!("day19-1: {}", part1(3014603));
-    println!("day19-2: {}", part2(3014603));
+    utils::run_timer(|| part1(3014603), 19, 1);
+    utils::run_timer(|| part2(3014603), 19, 2);
 }

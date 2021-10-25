@@ -77,9 +77,9 @@ pub fn _run()
 {
     let line = fs::read_to_string("../9.txt").unwrap().trim_end().to_owned();
 
-    let part1 = processq(&line, 1);
-    println!("day09-1: {}", part1);
+    let s = utils::run_timer_start(9, 1);
+    utils::run_timer_end(s, processq(&line, 1));
 
-    let part2 = processq(&line, 2);
-    println!("day09-2: {}", part2);
+    let s = utils::run_timer_start(9, 2);
+    utils::run_timer_end(s, processq(&line, 2));
 }
