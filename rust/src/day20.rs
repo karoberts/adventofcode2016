@@ -39,23 +39,16 @@ pub fn _run()
     });
 
     let mut ip : i64 = 0;
-    while ip <= MAX_IP {
-        let rg = findrange(&ranges, ip);
-        if rg.is_none() {
-            utils::run_timer_end(s, ip);
-            break
-        }
-        ip = rg.unwrap().1;
-        ip += 1;
-    }
-
-    let s = utils::run_timer_start(20, 2);
-
-    ip = 0;
     let mut ct = 0;
+    let mut part1 = false;
     while ip <= MAX_IP {
         let rg = findrange(&ranges, ip);
         if rg.is_none() {
+            if !part1 {
+                utils::run_timer_end(None, ip);
+                utils::run_timer_start(20, 2);
+                part1 = true;
+            }
             let mut nrg = findnext(&ranges, ip);
             if nrg.is_none() {
                 nrg = Some(&(MAX_IP + 1, MAX_IP + 1));
