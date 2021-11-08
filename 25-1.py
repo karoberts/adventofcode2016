@@ -51,12 +51,12 @@ def runit(a):
             if (n1 and n1 != 0) or (n1 is None and regs[i1] != 0):
                 ip += (n2 if n2 else regs[i2]) - 1
         elif op == 'out':
-            print(stmts, 'OUT:', regs[i1])
+            #print(stmts, 'OUT:', regs[i1])
             if last_out is None:
                 last_out = regs[i1]
             else:
                 if regs[i1] == last_out:
-                    print(a, 'not right')
+                    #print(a, 'not right')
                     break
             last_out = regs[i1]
             outs += 1
@@ -74,8 +74,8 @@ def runit(a):
 
     #print(regs)
 
-runit(192)
-exit()
+#runit(192)
+#exit()
 
 for a in range(0, 1000):
     if runit(a):
