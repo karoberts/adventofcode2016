@@ -7,8 +7,7 @@ struct ProgItem
     arg1: Option<char>,
     arg1i: Option<i32>,
     arg2: Option<char>,
-    arg2i: Option<i32>,
-    line: String
+    arg2i: Option<i32>
 }
 
 fn is_abcd(s: &String) -> bool
@@ -68,8 +67,7 @@ pub fn _run()
             arg1: if is_abcd(&m[1].to_owned()) { Some(m[1].chars().nth(0).unwrap()) } else { None }, 
             arg1i: if is_abcd(&m[1].to_owned()) { None } else { Some(m[1].parse::<i32>().expect("")) },
             arg2: if m.len() == 3 && is_abcd(&m[2].to_owned()) { Some(m[2].chars().nth(0).unwrap()) } else { None }, 
-            arg2i: if m.len() == 2 || is_abcd(&m[2].to_owned()) { None } else { Some(m[2].parse::<i32>().expect("")) },
-            line: line
+            arg2i: if m.len() == 2 || is_abcd(&m[2].to_owned()) { None } else { Some(m[2].parse::<i32>().expect("")) }
         };
         program.push(p);
     }
