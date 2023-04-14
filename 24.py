@@ -31,15 +31,20 @@ with open('24.txt') as f:
 max_x = x
 max_y = y
 
-print(nums, max_x, max_y, cur_x, cur_y)
+#print(nums, max_x, max_y, cur_x, cur_y)
 
+"""
 for y in range(0, max_y):
     for x in range(0, max_x):
         c = grid[key(x,y)]
         print(c, end='')
     print()
+"""
 
+memo = {}
 def dijkstra(st_x,st_y,tgt):
+    if (st_x, st_y, tgt) in memo:
+        return memo[(st_x, st_y, tgt)]
     tests = [ (1, 0), (-1, 0), (0, -1), (0, 1) ]
     def get_neighbors(x,y):
         k = key(x,y)
@@ -83,6 +88,7 @@ def dijkstra(st_x,st_y,tgt):
             continue
         inq.remove(u[3])
         if grid[u[3]] == tgt:
+            memo[(st_x, st_y, tgt)] = u
             return u
         #if u[1] == target_y and u[2] == target_y:
             #return u
@@ -106,7 +112,7 @@ for i in range(1, nums):
     numsteps.append([set([i]), x[0], x[1], x[2]])
 
 for j in range(0, nums - 2):
-    print('starting round', j+1)
+    #print('starting round', j+1)
     new_numsteps = []
     for n in numsteps:
         for i in range(1, nums):
@@ -118,7 +124,7 @@ for j in range(0, nums - 2):
     numsteps = new_numsteps
 
 for nn in sorted(numsteps, key=lambda x:x[1]):
-    print(nn)
+    #print(nn)
     print('part1 steps', nn[1])
     break
 
@@ -137,9 +143,9 @@ for n in sorted(numsteps, key=lambda x:x[1]):
     new_numsteps.append([s, n[1] + x[0], x[1], x[2]])
     if n[1] + x[0] < min_final:
         min_final = n[1] + x[0]
-        print('NEW MIN!!!', min_final)
+        #print('NEW MIN!!!', min_final)
 
 for nn in sorted(new_numsteps, key=lambda x:x[1]):
-    print(nn)
+    #print(nn)
     print('part2 steps', nn[1])
     break
